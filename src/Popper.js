@@ -1,5 +1,5 @@
 // @flow strict
-import * as React from 'react';
+import { type Node, useContext, useMemo, useEffect, useState } from 'react';
 import {
   type State,
   type Placement,
@@ -32,7 +32,7 @@ export type PopperChildrenProps = {|
   forceUpdate: () => void,
   arrowProps: PopperArrowProps,
 |};
-export type PopperChildren = (PopperChildrenProps) => React.Node;
+export type PopperChildren = (PopperChildrenProps) => Node;
 
 export type PopperProps = $ReadOnly<{|
   children: PopperChildren,
@@ -56,17 +56,17 @@ export function Popper({
   onFirstUpdate,
   innerRef,
   children,
-}: PopperProps): React.Node {
-  const referenceNode = React.useContext(ManagerReferenceNodeContext);
+}: PopperProps): Node {
+  const referenceNode = useContext(ManagerReferenceNodeContext);
 
-  const [popperElement, setPopperElement] = React.useState(null);
-  const [arrowElement, setArrowElement] = React.useState(null);
+  const [popperElement, setPopperElement] = useState(null);
+  const [arrowElement, setArrowElement] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setRef(innerRef, popperElement)
   }, [innerRef, popperElement]);
 
-  const options = React.useMemo(
+  const options = useMemo(
     () => ({
       placement,
       strategy,
@@ -89,7 +89,7 @@ export function Popper({
     options
   );
 
-  const childrenProps = React.useMemo(
+  const childrenProps = useMemo(
     () => ({
       ref: setPopperElement,
       style: styles.popper,

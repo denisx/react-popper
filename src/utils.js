@@ -1,5 +1,5 @@
 // @flow strict
-import * as React from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { type Ref } from './RefTypes';
 
 /**
@@ -50,10 +50,10 @@ export const fromEntries = (
  * Small wrapper around `useLayoutEffect` to get rid of the warning on SSR envs
  */
 export const useIsomorphicLayoutEffect:
-  | typeof React.useEffect
-  | typeof React.useLayoutEffect =
+  | typeof useEffect
+  | typeof useLayoutEffect =
   typeof window !== 'undefined' &&
   window.document &&
   window.document.createElement
-    ? React.useLayoutEffect
-    : React.useEffect;
+    ? useLayoutEffect
+    : useEffect;

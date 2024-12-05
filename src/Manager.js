@@ -1,27 +1,27 @@
 // @flow strict
-import * as React from 'react';
+import React, { type Node, type Context, createContext, useEffect, useRef, useCallback, useState } from 'react';
 
-export const ManagerReferenceNodeContext: React.Context<?Element>  = React.createContext();
-export const ManagerReferenceNodeSetterContext: React.Context<
+export const ManagerReferenceNodeContext: Context<?Element>  = createContext();
+export const ManagerReferenceNodeSetterContext: Context<
   void | ((?Element) => void)
-> = React.createContext();
+> = createContext();
 
 export type ManagerProps = $ReadOnly<{
-  children: React.Node,
+  children: Node,
 }>;
 
-export function Manager({ children }: ManagerProps): React.Node {
-  const [referenceNode, setReferenceNode] = React.useState<?Element>(null);
+export function Manager({ children }: ManagerProps): Node {
+  const [referenceNode, setReferenceNode] = useState<?Element>(null);
 
-  const hasUnmounted = React.useRef(false);
-  React.useEffect(() => {
+  const hasUnmounted = useRef(false);
+  useEffect(() => {
     hasUnmounted.current = false;
     return () => {
       hasUnmounted.current = true;
     };
   }, []);
 
-  const handleSetReferenceNode = React.useCallback((node) => {
+  const handleSetReferenceNode = useCallback((node) => {
     if (!hasUnmounted.current) {
       setReferenceNode(node);
     }
